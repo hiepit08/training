@@ -1,17 +1,23 @@
 package buoi1;
 
 import org.testng.annotations.Test;
+
+import com.google.inject.spi.Element;
+
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.AfterClass;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.sql.Driver;
 
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
 
 public class lession_05 {
 	WebDriver driver;
@@ -32,6 +38,11 @@ public class lession_05 {
 	By submit = By.xpath("//input[@name='sub']");
 	By success = By.xpath("//p[text()='Customer Registered Successfully!!!']");
 	By veriName = By.xpath("//td[text()='Customer ID']/following-sibling::td]");
+	By newAcc = By.xpath("//a[text()='New Account']");
+	By type = By.xpath("//select[@name='selaccount']");
+	By current = By.xpath("//option[text()='Current']");
+	By sub = By.xpath("//input[@name='button2']");
+	
   @Test
   public void TC_01_CreateAccount() {
 	  //login user
@@ -39,9 +50,9 @@ public class lession_05 {
 	  driver.findElement(userID).sendKeys("mngr233439");
 	  driver.findElement(pass).clear();
 	  driver.findElement(pass).sendKeys("Ehamyre");
-	  driver.findElement(login).click();
+  driver.findElement(login).click();
 	  //clear data
-	  driver.findElement(newCus).click();
+	 /* driver.findElement(newCus).click();
 	  driver.findElement(address).clear();
 	  driver.findElement(city).clear();
 	  driver.findElement(state).clear();
@@ -63,8 +74,20 @@ public class lession_05 {
 	  
 	  //Verify Create account
 		Assert.assertEquals("Customer Registered Successfully!!!", success);
-		Assert.assertEquals("AUTOMATION TESTING",veriName);
-		
+		Assert.assertEquals("AUTOMATION TESTING",veriName);*/
+		//new account
+		  driver.findElement(newAcc).click();
+		  //gan bien newAcc bang chuoi, chon WebElement
+		  WebElement newAccount= driver.findElement(type);
+		  
+		Select select =new Select(newAccount);
+		select.selectByVisibleText("Current");
+		select.selectByIndex(1);
+		driver.getCurrentUrl();
+		System.out.print(driver.getCurrentUrl());
+		driver.findElement(By.xpath("current")).isSelected();
+
+		  
   }
   @BeforeClass
   public void beforeClass() {
@@ -74,6 +97,7 @@ public class lession_05 {
   }
   @AfterClass
   public void afterClass() {
+	  driver.close();
   }
 
 }
